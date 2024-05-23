@@ -13,16 +13,24 @@ async function getMovies (url) {
     showMovies(respData);
 }
 
-function showMovies (data){
-    const moviesEl = document.querySelector('movies');
+function showMovies (data) {
+    const moviesEl = document.querySelector('.movies');
+    
     data.films.forEach((movie) => {
         const movieEl = document.createElement('div');
         movieEl.classList.add('movie');
         movieEl.innerHTML = `
-            <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster">
-            <div class="movie__title">${movie.nameRu}</div>
-            <div class="movie__rating">${movie.rating}</div>
-        `;
+            <div class="movie__poster">
+            <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster"/>
+                <div class="movie__poster-darkened">
+                </div>
+            </div>
+            <div class="movie__info">
+                <div class="movie__title">${movie.nameRu}</div>
+                <div class="movie__category">${movie.genres.map((genre) => genre.genre).join(', ')}</div>
+                <div class="movie__rating">${movie.rating}</div>
+            </div>
+            `;
         moviesEl.appendChild(movieEl);
     });
 }
