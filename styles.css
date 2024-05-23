@@ -108,13 +108,13 @@ body {
 }
 
 .movie__rating--green {
-border: 1px solid rgb(2, 187, 2);
+    border: 1px solid rgb(2, 187, 2);
 }
 
 .movie__rating--red {
     border: 1px solid red;
 }
 
-.movie__rating--yellow {
-    border: 1px solid yellow;
+.movie__rating--orange {
+    border: 1px solid orange;
 }
