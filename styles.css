@@ -96,25 +96,27 @@ body {
     top: 10px;
     left: 10px;
     right: 0;
-    border-radius: 50%;
+    border-radius: 5px;
     width: 36px;
-    height: 36px;
+    height: 25px;
     display: flex;
     justify-content: center;
     color: #ffffff;
     align-items: center;
     font-size: 14px;
-    background-color: #1a191f;
 }
 
 .movie__rating--green {
     border: 1px solid rgb(2, 187, 2);
+    background-color: rgb(2, 187, 2);
 }
 
 .movie__rating--red {
     border: 1px solid red;
+    background-color: red;
 }
 
 .movie__rating--orange {
     border: 1px solid orange;
+    background-color: orange;
 }
