@@ -131,3 +131,9 @@ body {
     margin: 20px 0;
     padding: 0 16px;
 }
+
+.glide__slide {
+    width: 240px !important;
+    margin: 25px !important; 
+    position: relative;
+}

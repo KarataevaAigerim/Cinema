@@ -1,4 +1,4 @@
-const API_KEY = 'a61bd329-6b11-4fcd-bb21-27e2f5b44bbd';
+const API_KEY = 'a61bd329-6b11-4fcd-bb21-27e2f5b44bbd'; 
 const API_URL_POPULAR = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type-TOP_100_POPULAR_FILMS&page=1";
 const API_URL_SEARCH = "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-keyword?keyword=";
 const API_URL_RELEASE = "https://kinopoiskapiunofficial.tech/api/v2.2/films/releases?year=2024&month=MAY&page=1";
@@ -6,7 +6,7 @@ const API_URL_PREMIERE = "https://kinopoiskapiunofficial.tech/api/v2.2/films/pre
 const API_URL_AWAIT = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_AWAIT_FILMS&page=1";
 const API_URL_BEST = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=1";
 
-// top 10 Best movies 
+
 getBestMovies (API_URL_BEST);
 async function getBestMovies (url) {
     const resp = await fetch(url, {
@@ -19,48 +19,6 @@ async function getBestMovies (url) {
     showBestMovies(respData);
 }
 
-function getClassByRate (rate) {
-    if (rate >= 7) {
-        return 'green';
-    } else if (rate >= 4) {
-        return 'orange';
-    } else {
-        return 'red';
-    }
-}
-
-// Show best top 10 movies
-
-// function showBestMovies(data) {
-//     const moviesEl = document.querySelector('.movies-best');
-
-//     // Clear previous movie listings
-//     // moviesEl.innerHTML = ''; easier way to clear the page
-//     document.querySelector('.movies-best').innerHTML = '';
-
-//     // Get the top 10 films only
-//     const topTenFilms = data.films.slice(0, 10);
-
-//     topTenFilms.forEach((movie) => {
-//         const movieEl = document.createElement('div');
-//         movieEl.classList.add('movie');
-//         movieEl.innerHTML = `
-//             <div class="movie__poster">
-//                 <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
-//                 <div class="movie__poster-darkened"></div>
-//             </div>
-//             <div class="movie__info">
-//                 <div class="movie__title">${movie.nameRu}</div>
-//                 <div class="movie__category">${movie.genres.map(genre => genre.genre).join(', ')}</div>
-//                 <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
-//                 <div class="movie__year">${movie.year}</div>
-//             </div>
-//         `;
-//         moviesEl.appendChild(movieEl);
-//     });
-// }
-
-// Top 10 Awaited movies 
 
 getAwaitMovies(API_URL_AWAIT);
 async function getAwaitMovies (url) {
@@ -74,18 +32,17 @@ async function getAwaitMovies (url) {
     showAwaitMovies(respData);
 }
 
-function showAwaitMovies(data) {
-    const moviesEl = document.querySelector('.movies-await');
+
+function showBestMovies(data) {
+    const moviesEl = document.querySelector('.movies-best .glide__slides');
     moviesEl.innerHTML = '';
 
-    const topTenFilms = data.films.slice(0, 10);
-
-    topTenFilms.forEach((movie) => {
-        const movieEl = document.createElement('div');
-        movieEl.classList.add('movie');
-        movieEl.innerHTML = `
+    data.films.slice(0, 10).forEach(movie => {
+        const li = document.createElement('li');
+        li.className = 'glide__slide';
+        li.innerHTML = `
             <div class="movie__poster">
-                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu} class="movie__poster-img"/>
                 <div class="movie__poster-darkened"></div>
             </div>
             <div class="movie__info">
@@ -95,9 +52,47 @@ function showAwaitMovies(data) {
                 <div class="movie__year">${movie.year}</div>
             </div>
         `;
-        moviesEl.appendChild(movieEl);
-    }
-    );
+        moviesEl.appendChild(li);
+    });
+
+    new Glide('.movies-best', {
+        type: 'carousel',
+        startAt: 0,
+        perView: 5
+    }).mount();
+}
+
+function showAwaitMovies(data) {
+    const moviesEl = document.querySelector('.movies-await .glide__slides');
+    moviesEl.innerHTML = '';
+
+    // Get the top 10 films
+    const topTenFilms = data.films.slice(0, 10);
+
+    // Append each movie as a list item to the carousel
+    topTenFilms.forEach((movie) => {
+        const li = document.createElement('li');
+        li.className = 'glide__slide';
+        li.innerHTML = `
+            <div class="movie__poster">
+                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+                <div class="movie__poster-darkened"></div>
+            </div>
+            <div class="movie__info">
+                <div class="movie__title">${movie.nameRu}</div>
+                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(', ')}</div>
+                <div class="movie__year">${movie.year}</div>
+            </div>
+        `;
+        moviesEl.appendChild(li);
+    });
+
+    // Initialize Glide.js on the .movies-await container
+    new Glide('.movies-await', {
+        type: 'carousel',
+        startAt: 0,
+        perView: 5
+    }).mount();
 }
 
 
@@ -116,36 +111,58 @@ form.addEventListener('submit', (e) => {
     }
 });
 
+// Rating color
+function getClassByRate (rate) {
+    if (rate >= 7) {
+        return 'green';
+    } else if (rate >= 4) {
+        return 'orange';
+    } else {
+        return 'red';
+    }
+}
 
-function showBestMovies(data, containerClass = '.movies-best') {
-    const moviesEl = document.querySelector('.movies-best' + ' .glide__slides');
+// Digital releases
+getDigitalReleases(API_URL_RELEASE);
+async function getDigitalReleases(url) {
+    const resp = await fetch(url, {
+        headers: {
+            "Content-Type": "application/json",
+            "X-API-KEY": API_KEY, 
+        },
+    });
+    const respData = await resp.json();
+    showDigitalReleases(respData);
+}
+
+function showDigitalReleases(data) {
+    const moviesEl = document.querySelector('.movies-release .glide__slides');
     moviesEl.innerHTML = '';
 
-    data.films.slice(0, 10).forEach(movie => {
+    data.releases.slice(0, 10).forEach(movie => {
         const li = document.createElement('li');
         li.className = 'glide__slide';
         li.innerHTML = `
-            <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}">
-            <div>
-                <h3>${movie.nameRu}</h3>
-                <p>${movie.genres.map(genre => genre.genre).join(', ')}</p>
-                <span>${movie.rating}</span>
+            <div class="movie__poster">
+                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+                <div class="movie__poster-darkened"></div>
+            </div>
+            <div class="movie__info">
+                <div class="movie__title">${movie.nameRu}</div>
+                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(', ')}</div>
+                <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
+                <div class="movie__year">${movie.year}</div>
             </div>
         `;
         moviesEl.appendChild(li);
     });
 
-    new Glide(containerClass, {
+    new Glide('.movies-release', {
         type: 'carousel',
         startAt: 0,
-        perView: 3
+        perView: 5
     }).mount();
 }
-
-
-
-
-
 
 
 
