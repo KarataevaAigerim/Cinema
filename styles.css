@@ -120,3 +120,14 @@ body {
     border: 1px solid orange;
     background-color: orange;
 }
+
+.movie__year {
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.top-category {
+    color: #ffffff;
+    margin: 20px 0;
+    padding: 0 16px;
+}

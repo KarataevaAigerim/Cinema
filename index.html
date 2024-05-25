@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMDB</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.theme.min.css">
 </head>
 <body>
     <header class="container">
@@ -16,13 +18,32 @@
         </div>
     </header>
     <main class="container">
-        <div class="movies movies-best">
-            <!-- movies -->
+        <div class="top-category"> 
+            <div class="glide movies-best">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+                        <!-- Movie items will be inserted here -->
+                    </ul>
+                </div>
+                <div class="glide__arrows" data-glide-el="controls">
+                    <button class="glide__arrow glide__arrow--left" data-glide-dir="<">Prev</button>
+                    <button class="glide__arrow glide__arrow--right" data-glide-dir=">">Next</button>
+                </div>
+            </div>
+
+
+            
         </div>
-        <div class=" movies movies-await">
-            <!-- movies -->
+        <div class="top-category">
+            <h2>Top 10 Awaited movies</h2>
+            <div class=" movies movies-await">
+            
+                <!-- movies -->
+            </div>
         </div>
+        
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/@glidejs/glide"></script>
     <script src="script.js"></script>
 </body>
 </html>

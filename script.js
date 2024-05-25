@@ -31,33 +31,34 @@ function getClassByRate (rate) {
 
 // Show best top 10 movies
 
-function showBestMovies(data) {
-    const moviesEl = document.querySelector('.movies-best');
+// function showBestMovies(data) {
+//     const moviesEl = document.querySelector('.movies-best');
 
-    // Clear previous movie listings
-    // moviesEl.innerHTML = ''; easier way to clear the page
-    document.querySelector('.movies-best').innerHTML = '';
+//     // Clear previous movie listings
+//     // moviesEl.innerHTML = ''; easier way to clear the page
+//     document.querySelector('.movies-best').innerHTML = '';
 
-    // Get the top 10 films only
-    const topTenFilms = data.films.slice(0, 10);
+//     // Get the top 10 films only
+//     const topTenFilms = data.films.slice(0, 10);
 
-    topTenFilms.forEach((movie) => {
-        const movieEl = document.createElement('div');
-        movieEl.classList.add('movie');
-        movieEl.innerHTML = `
-            <div class="movie__poster">
-                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
-                <div class="movie__poster-darkened"></div>
-            </div>
-            <div class="movie__info">
-                <div class="movie__title">${movie.nameRu}</div>
-                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(', ')}</div>
-                <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
-            </div>
-        `;
-        moviesEl.appendChild(movieEl);
-    });
-}
+//     topTenFilms.forEach((movie) => {
+//         const movieEl = document.createElement('div');
+//         movieEl.classList.add('movie');
+//         movieEl.innerHTML = `
+//             <div class="movie__poster">
+//                 <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+//                 <div class="movie__poster-darkened"></div>
+//             </div>
+//             <div class="movie__info">
+//                 <div class="movie__title">${movie.nameRu}</div>
+//                 <div class="movie__category">${movie.genres.map(genre => genre.genre).join(', ')}</div>
+//                 <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
+//                 <div class="movie__year">${movie.year}</div>
+//             </div>
+//         `;
+//         moviesEl.appendChild(movieEl);
+//     });
+// }
 
 // Top 10 Awaited movies 
 
@@ -91,6 +92,7 @@ function showAwaitMovies(data) {
                 <div class="movie__title">${movie.nameRu}</div>
                 <div class="movie__category">${movie.genres.map(genre => genre.genre).join(', ')}</div>
                 <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
+                <div class="movie__year">${movie.year}</div>
             </div>
         `;
         moviesEl.appendChild(movieEl);
@@ -115,6 +117,30 @@ form.addEventListener('submit', (e) => {
 });
 
 
+function showBestMovies(data, containerClass = '.movies-best') {
+    const moviesEl = document.querySelector('.movies-best' + ' .glide__slides');
+    moviesEl.innerHTML = '';
+
+    data.films.slice(0, 10).forEach(movie => {
+        const li = document.createElement('li');
+        li.className = 'glide__slide';
+        li.innerHTML = `
+            <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}">
+            <div>
+                <h3>${movie.nameRu}</h3>
+                <p>${movie.genres.map(genre => genre.genre).join(', ')}</p>
+                <span>${movie.rating}</span>
+            </div>
+        `;
+        moviesEl.appendChild(li);
+    });
+
+    new Glide(containerClass, {
+        type: 'carousel',
+        startAt: 0,
+        perView: 3
+    }).mount();
+}
 
 
 
