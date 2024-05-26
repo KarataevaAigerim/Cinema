@@ -14,7 +14,7 @@ const search = document.querySelector('.header__search');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const apiSearchUrl = `${API_URL_SEARCH}${search.value}&apikey=${API_KEY}`;
+    const apiSearchUrl = `${API_URL_SEARCH}${encodeURIComponent(search.value)}`;
     if (search.value) {
         fetchSearchResults(apiSearchUrl);
         search.value = '';
@@ -22,33 +22,45 @@ form.addEventListener('submit', (e) => {
 });
 
 function fetchSearchResults(url) {
-    fetch(url)
+    const options = {
+        method: 'GET',
+        headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": API_KEY,
+        }
+    };
+
+    fetch(url, options)
         .then(response => response.json())
         .then(data => displaySearchResults(data))
+        .catch(error => console.error('Error fetching search results:', error));
 }
 
 
 function displaySearchResults(data) {
-    const searchResultsContainer = document.querySelector('.search-results');
-    searchResultsContainer.innerHTML = ''; // Clear the previous search results
+    const searchResultsAdapter = document.querySelector('.search-results');
+    searchResultsAdapter.innerHTML = ''; // Clear the previous search results
 
-    data.films.forEach(movie => {
+    const movies = data.films || [];
+    for (let i = 0; i < movies.length && i < 12; i++) {
+        const movie = movies[i];
         const element = document.createElement('div');
         element.className = 'movie';
         element.innerHTML = `
             <div class="movie__poster">
-                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}"/>
+                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+                <div class="movie__poster-darkened"></div>
+                <div class="movie__year">${movie.year}</div>
             </div>
             <div class="movie__info">
-                <h3>${movie.nameRu}</h3>
-                <p>${movie.genres.map(genre => genre.genre).join(', ')}</p>
-                <div>Rating: ${movie.rating}</div>
+                <div class="movie__title">${movie.nameRu}</div>
+                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
+                <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
             </div>
         `;
-        searchResultsContainer.appendChild(element);
-    });
+        searchResultsAdapter.appendChild(element);
+    }
 }
-
 
 // Rating color
 function getClassByRate (rate) {
@@ -101,6 +113,7 @@ function getClassByRate (rate) {
   
     new Glide(`.${containerClass}`, {
       type: 'slider',
+      bound: true,
       startAt: 0,
       perView: 4
     }).mount();
