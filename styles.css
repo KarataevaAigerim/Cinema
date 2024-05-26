@@ -20,15 +20,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
-    height: 60px;
+    padding: 10px 25px;
+    height: 80px;
 }
 
+
 .header__logo {
-    text-decoration: none;
-    font-size: 32px;
-    color: #ffffff;
+    height: 40px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
+
 
 .header__search {
     padding: 8px;
@@ -36,27 +41,33 @@ body {
     border-radius: 5px;
     outline: none;
 }
-
+.search-results {
+    max-width: 1200px;
+    margin: 0 auto;
+}
 .movies {
     display: flex;
     flex-wrap:wrap;
-    justify-content: space-around;
+    /* justify-content: space-around; */
+    width: 100%; /* Ensure the container is full width or adjust as necessary */
+    overflow: hidden;
 }
 
 .movie {
-    width: 240px;
-    margin: 10px;
+    width: 180px;
+    /* margin: 10px; */
     position: relative;
 }
 
 .movie__poster {
     position: relative;
-    height: 360px;
+    height: 300px;
 }
 
 .movie__poster img {
     width: 100%;
     height: 100%;
+    display: block; /* Removes any space below the image */
 }
 
 .movie__poster-darkened {
@@ -133,7 +144,17 @@ body {
 }
 
 .glide__slide {
-    width: 240px !important;
-    margin: 25px !important; 
+    width: 200px !important;
+    margin: 15px !important; 
     position: relative;
+    box-sizing: border-box;
+}
+
+.glide {
+    max-width: 100%; /* Ensures that the Glide component does not exceed the width of its container */
+}
+
+.movies-best {
+    width: 100%; /* Ensure the container is full width or adjust as necessary */
+    overflow: hidden; /* Prevents any part of the slide from overflowing outside the carousel */
 }

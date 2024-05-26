@@ -94,3 +94,33 @@ function showAwaitMovies(data) {
     }
     );
 }
+
+
+function showPremiereMovies(data) {
+    const moviesEl = document.querySelector('.movies-premiere .glide__slides');
+    moviesEl.innerHTML = '';
+
+    data.premiere.slice(0, 10).forEach(movie => {
+        const li = document.createElement('li');
+        li.className = 'glide__slide';
+        li.innerHTML = `
+            <div class="movie__poster">
+                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+                <div class="movie__poster-darkened"></div>
+            </div>
+            <div class="movie__info">
+                <div class="movie__title">${movie.nameRu}</div>
+                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(', ')}</div>
+                <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
+                <div class="movie__year">${movie.year}</div>
+            </div>
+        `;
+        moviesEl.appendChild(li);
+    });
+
+    new Glide('.movies-premiere', {
+        type: 'carousel',
+        startAt: 0,
+        perView: 5
+    }).mount();
+}
