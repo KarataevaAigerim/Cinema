@@ -44,12 +44,13 @@ function showBestMovies(data) {
             <div class="movie__poster">
                 <img src="${movie.posterUrlPreview}" alt="${movie.nameRu} class="movie__poster-img"/>
                 <div class="movie__poster-darkened"></div>
+                <div class="movie__year">${movie.year}</div>
             </div>
             <div class="movie__info">
                 <div class="movie__title">${movie.nameRu}</div>
                 <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
                 <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
-                <div class="movie__year">${movie.year}</div>
+                
             </div>
         `;
         moviesEl.appendChild(li);
@@ -77,11 +78,12 @@ function showAwaitMovies(data) {
             <div class="movie__poster">
                 <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
                 <div class="movie__poster-darkened"></div>
+                <div class="movie__year">${movie.year}</div>
             </div>
             <div class="movie__info">
                 <div class="movie__title">${movie.nameRu}</div>
                 <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
-                <div class="movie__year">${movie.year}</div>
+                
             </div>
         `;
         moviesEl.appendChild(li);
@@ -121,12 +123,13 @@ function showDigitalReleases(data) {
             <div class="movie__poster">
                 <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
                 <div class="movie__poster-darkened"></div>
+                <div class="movie__year">${movie.year}</div>
             </div>
             <div class="movie__info">
                 <div class="movie__title">${movie.nameRu}</div>
                 <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
                 <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
-                <div class="movie__year">${movie.year}</div>
+                
             </div>
         `;
         moviesEl.appendChild(li);
@@ -134,6 +137,7 @@ function showDigitalReleases(data) {
 
     new Glide('.movies-release', {
         type: 'slider',
+        bound: true,
         startAt: 0,
         perView: 4
     }).mount();
@@ -164,11 +168,12 @@ function showPremiere(data) {
             <div class="movie__poster">
                 <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
                 <div class="movie__poster-darkened"></div>
+                <div class="movie__year">${movie.year}</div>
             </div>
             <div class="movie__info">
                 <div class="movie__title">${movie.nameRu}</div>
                 <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
-                <div class="movie__year">${movie.year}</div>
+                
             </div>
         `;
         moviesEl.appendChild(li);
@@ -176,6 +181,7 @@ function showPremiere(data) {
 
     new Glide('.movies-premiere', {
         type: 'slider',
+        bound: true,
         startAt: 0,
         perView: 4
     }).mount();
