@@ -7,185 +7,7 @@ const API_URL_AWAIT = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?ty
 const API_URL_BEST = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=1";
 
 
-getBestMovies (API_URL_BEST);
-async function getBestMovies (url) {
-    const resp = await fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": API_KEY,
-    },
-    });
-    const respData = await resp.json();
-    showBestMovies(respData);
-}
 
-
-getAwaitMovies(API_URL_AWAIT);
-async function getAwaitMovies (url) {
-    const resp = await fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": API_KEY,
-    },
-    });
-    const respData = await resp.json();
-    showAwaitMovies(respData);
-}
-
-
-function showBestMovies(data) {
-    const moviesEl = document.querySelector('.movies-best .glide__slides');
-    moviesEl.innerHTML = '';
-
-    data.films.slice(0, 10).forEach(movie => {
-        const li = document.createElement('li');
-        li.className = 'glide__slide';
-        li.innerHTML = `
-            <div class="movie__poster">
-                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu} class="movie__poster-img"/>
-                <div class="movie__poster-darkened"></div>
-                <div class="movie__year">${movie.year}</div>
-            </div>
-            <div class="movie__info">
-                <div class="movie__title">${movie.nameRu}</div>
-                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
-                <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
-                
-            </div>
-        `;
-        moviesEl.appendChild(li);
-    });
-
-    new Glide('.movies-best', {
-        type: 'slider',
-        startAt: 0,
-        perView: 4
-    }).mount();
-}
-
-function showAwaitMovies(data) {
-    const moviesEl = document.querySelector('.movies-await .glide__slides');
-    moviesEl.innerHTML = '';
-
-    // Get the top 10 films
-    const topTenFilms = data.films.slice(0, 10);
-
-    // Append each movie as a list item to the carousel
-    topTenFilms.forEach((movie) => {
-        const li = document.createElement('li');
-        li.className = 'glide__slide';
-        li.innerHTML = `
-            <div class="movie__poster">
-                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
-                <div class="movie__poster-darkened"></div>
-                <div class="movie__year">${movie.year}</div>
-            </div>
-            <div class="movie__info">
-                <div class="movie__title">${movie.nameRu}</div>
-                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
-                
-            </div>
-        `;
-        moviesEl.appendChild(li);
-    });
-
-    // Initialize Glide.js on the .movies-await container
-    new Glide('.movies-await', {
-        type: 'slider',
-        bound: true,
-        startAt: 0,
-        perView: 4
-    }).mount();
-}
-
-
-// Digital releases
-getDigitalReleases(API_URL_RELEASE);
-async function getDigitalReleases(url) {
-    const resp = await fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": API_KEY, 
-        },
-    });
-    const respData = await resp.json();
-    showDigitalReleases(respData);
-}
-
-function showDigitalReleases(data) {
-    const moviesEl = document.querySelector('.movies-release .glide__slides');
-    moviesEl.innerHTML = '';
-
-    data.releases.slice(0, 10).forEach(movie => {
-        const li = document.createElement('li');
-        li.className = 'glide__slide';
-        li.innerHTML = `
-            <div class="movie__poster">
-                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
-                <div class="movie__poster-darkened"></div>
-                <div class="movie__year">${movie.year}</div>
-            </div>
-            <div class="movie__info">
-                <div class="movie__title">${movie.nameRu}</div>
-                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
-                <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
-                
-            </div>
-        `;
-        moviesEl.appendChild(li);
-    });
-
-    new Glide('.movies-release', {
-        type: 'slider',
-        bound: true,
-        startAt: 0,
-        perView: 4
-    }).mount();
-}
-
-
-// Premiere
-getPremiere(API_URL_PREMIERE);
-async function getPremiere(url) {
-    const resp = await fetch(url, {
-        headers: {
-            "Content-Type": "application/json",
-            "X-API-KEY": API_KEY, 
-        },
-    });
-    const respData = await resp.json();
-    showPremiere(respData);
-}
-
-function showPremiere(data) {
-    const moviesEl = document.querySelector('.movies-premiere .glide__slides');
-    moviesEl.innerHTML = '';
-
-    data.items.slice(0, 10).forEach(movie => {
-        const li = document.createElement('li');
-        li.className = 'glide__slide';
-        li.innerHTML = `
-            <div class="movie__poster">
-                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
-                <div class="movie__poster-darkened"></div>
-                <div class="movie__year">${movie.year}</div>
-            </div>
-            <div class="movie__info">
-                <div class="movie__title">${movie.nameRu}</div>
-                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
-                
-            </div>
-        `;
-        moviesEl.appendChild(li);
-    });
-
-    new Glide('.movies-premiere', {
-        type: 'slider',
-        bound: true,
-        startAt: 0,
-        perView: 4
-    }).mount();
-}
 
 // const form = document.querySelector('form');
 // const search = document.querySelector('.header__search');
@@ -212,26 +34,6 @@ function showPremiere(data) {
 //     }
 // });
 
-// function displaySearchResults(data) {
-//     const searchResultsContainer = document.querySelector('.search-results');
-//     searchResults. innerHTML = ''; // Clear the previous search results
-
-//     data.films.forEach(movie => {
-//         const element = document.createElement('div');
-//         element.className = 'movie';
-//         element.innerHTML = `
-//             <div class="movie__poster">
-//                 <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}"/>
-//             </div>
-//             <div class="movie__info">
-//                 <h3>${movie.nameRu}</h3>
-//                 <p>${movie.genres.map(genre => genre.genre).join(', ')}</p>
-//                 <div>Rating: ${movie.rating}</div>
-//             </div>
-//         `;
-//         searchResultsContainer.appendChild(element);
-//     });
-// }
 
 
 // Search
@@ -240,13 +42,40 @@ const search = document.querySelector('.header__search');
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-
-    const apiSearchUrl = `${API_URL_SEARCH}${search.value}`;
+    const apiSearchUrl = `${API_URL_SEARCH}${search.value}&apikey=${API_KEY}`;
     if (search.value) {
-        getBestMovies(apiSearchUrl);
+        fetchSearchResults(apiSearchUrl);
         search.value = '';
     }
 });
+
+function fetchSearchResults(url) {
+    fetch(url)
+        .then(response => response.json())
+        .then(data => displaySearchResults(data))
+}
+
+
+function displaySearchResults(data) {
+    const searchResultsContainer = document.querySelector('.search-results');
+    searchResultsContainer.innerHTML = ''; // Clear the previous search results
+
+    data.films.forEach(movie => {
+        const element = document.createElement('div');
+        element.className = 'movie';
+        element.innerHTML = `
+            <div class="movie__poster">
+                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}"/>
+            </div>
+            <div class="movie__info">
+                <h3>${movie.nameRu}</h3>
+                <p>${movie.genres.map(genre => genre.genre).join(', ')}</p>
+                <div>Rating: ${movie.rating}</div>
+            </div>
+        `;
+        searchResultsContainer.appendChild(element);
+    });
+}
 
 // form.addEventListener("submit", (e) => {
 //     e.preventDefault();
@@ -274,6 +103,53 @@ function getClassByRate (rate) {
 
 
 
+
+// refactored code
+
+  async function fetchAndDisplayMovies(url, containerClass, dataKey, showRating = false) {
+    const resp = await fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": API_KEY,
+      },
+    });
+    const respData = await resp.json();
+    displayMovies(respData[dataKey], containerClass, showRating);
+  }
+  
+  function displayMovies(movies, containerClass, showRating = false) {
+    const moviesEl = document.querySelector(`.${containerClass} .glide__slides`);
+    moviesEl.innerHTML = '';
+  
+    movies.slice(0, 10).forEach(movie => {
+      const li = document.createElement('li');
+      li.className = 'glide__slide';
+      li.innerHTML = `
+        <div class="movie__poster">
+          <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+          <div class="movie__poster-darkened"></div>
+          <div class="movie__year">${movie.year}</div>
+        </div>
+        <div class="movie__info">
+          <div class="movie__title">${movie.nameRu}</div>
+          <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
+          ${showRating ? `<div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>` : ''}
+        </div>
+      `;
+      moviesEl.appendChild(li);
+    });
+  
+    new Glide(`.${containerClass}`, {
+      type: 'slider',
+      startAt: 0,
+      perView: 4
+    }).mount();
+  }
+
+fetchAndDisplayMovies(API_URL_BEST, 'movies-best', 'films', true);  // Show ratings
+fetchAndDisplayMovies(API_URL_AWAIT, 'movies-await', 'films', false);  // Hide ratings
+fetchAndDisplayMovies(API_URL_RELEASE, 'movies-release', 'releases', false);  // Hide ratings
+fetchAndDisplayMovies(API_URL_PREMIERE, 'movies-premiere', 'items', false);  // Hide ratings
 
 
 
