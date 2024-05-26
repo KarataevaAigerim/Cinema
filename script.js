@@ -38,12 +38,11 @@ function fetchSearchResults(url) {
 
 
 function displaySearchResults(data) {
-    const searchResultsAdapter = document.querySelector('.search-results');
-    searchResultsAdapter.innerHTML = ''; // Clear the previous search results
+    const searchResultsContainer = document.querySelector('.search-results');
+    searchResultsContainer.innerHTML = ''; // Clear the previous search results
 
-    const movies = data.films || [];
-    for (let i = 0; i < movies.length && i < 12; i++) {
-        const movie = movies[i];
+    // Use slice to get only the first 12 movies
+    (data.films || []).slice(0, 12).forEach(movie => {
         const element = document.createElement('div');
         element.className = 'movie';
         element.innerHTML = `
@@ -54,12 +53,14 @@ function displaySearchResults(data) {
             </div>
             <div class="movie__info">
                 <div class="movie__title">${movie.nameRu}</div>
-                <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
+                <div class="movie__category">${
+                    movie.genres.slice(0, 2).map(genre => genre.genre).join(' • ')
+                }</div>
                 <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
             </div>
         `;
-        searchResultsAdapter.appendChild(element);
-    }
+        searchResultsContainer.appendChild(element);
+    });
 }
 
 // Rating color
@@ -104,7 +105,9 @@ function getClassByRate (rate) {
         </div>
         <div class="movie__info">
           <div class="movie__title">${movie.nameRu}</div>
-          <div class="movie__category">${movie.genres.map(genre => genre.genre).join(' • ')}</div>
+          <div class="movie__category">${
+            movie.genres.slice(0, 2).map(genre => genre.genre).join(' • ')
+        }</div>
           ${showRating ? `<div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>` : ''}
         </div>
       `;
