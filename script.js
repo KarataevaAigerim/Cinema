@@ -8,34 +8,6 @@ const API_URL_BEST = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?typ
 
 
 
-
-// const form = document.querySelector('form');
-// const search = document.querySelector('.header__search');
-
-// form.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-
-//     const apiSearchUrl = `${API_URL_SEARCH}${search.value}`;
-//     if (search.value) {
-//         try {
-//             const response = await fetch(apiSearchUrl, {
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                     "X-API-KEY": API_KEY,
-//                 }
-//             });
-//             const data = await response.json();
-//             displaySearchResults(data); // Use the new function to display results
-//             search.value = '';
-//         } catch (error) {
-//             console.error('Search failed:', error);
-//             // Optionally, update the UI to notify the user that the search failed
-//         }
-//     }
-// });
-
-
-
 // Search
 const form = document.querySelector('form');
 const search = document.querySelector('.header__search');
@@ -76,18 +48,6 @@ function displaySearchResults(data) {
         searchResultsContainer.appendChild(element);
     });
 }
-
-// form.addEventListener("submit", (e) => {
-//     e.preventDefault();
-  
-//     const apiSearchUrl = `${API_URL_SEARCH}${search.value}`;
-//     if (search.value) {
-//       getMovies(apiSearchUrl);
-//       search.value = "";
-//     }
-//   });
-
-
 
 
 // Rating color
