@@ -47,7 +47,8 @@ body {
     margin: 0 auto;
     display: flex;
     flex-wrap:wrap;
-    justify-content: space-around;
+    justify-content: start;
+    gap: 20px;
     width: 100%; /* Ensure the container is full width or adjust as necessary */
     overflow: hidden;
 }
@@ -63,7 +64,7 @@ body {
 .movies {
     display: flex;
     flex-wrap:wrap;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%; /* Ensure the container is full width or adjust as necessary */
     overflow: hidden;
 }
@@ -76,7 +77,7 @@ body {
 
 .movie__poster {
     position: relative;
-    height: 300px;
+    height: 280px;
 }
 
 .movie__poster img {
@@ -104,8 +105,16 @@ body {
 }
 
 .movie__info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px 0px;
 }
+
+.movie__details {
+    flex-grow: 1;
+}
+
 
 .movie__title {
     font-size: 16px;
@@ -170,3 +179,15 @@ body {
     max-width: 100%; 
 }
 
+.heart-btn {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    outline: none;
+    color:grey;
+    margin-right: 15px;
+}
+
+.heart-btn i:hover {
+    cursor: pointer;
+}
