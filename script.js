@@ -6,7 +6,6 @@ const API_URL_PREMIERE = "https://kinopoiskapiunofficial.tech/api/v2.2/films/pre
 const API_URL_AWAIT = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_AWAIT_FILMS&page=1";
 const API_URL_BEST = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=1";
 
-
 // Search
 const form = document.querySelector('form');
 const search = document.querySelector('.header__search');
@@ -76,11 +75,7 @@ function getClassByRate (rate) {
     }
 }
 
-
-
-
 // refactored code
-
   async function fetchAndDisplayMovies(url, containerClass, dataKey, showRating = false) {
     const resp = await fetch(url, {
       headers: {
@@ -90,8 +85,8 @@ function getClassByRate (rate) {
     });
     const respData = await resp.json();
     displayMovies(respData[dataKey], containerClass, showRating);
-  }
-
+  }  
+  
   function displayMovies(movies, containerClass, showRating = false) {
     const moviesEl = document.querySelector(`.${containerClass} .glide__slides`);
     moviesEl.innerHTML = '';
@@ -121,12 +116,14 @@ function getClassByRate (rate) {
     });
   
     new Glide(`.${containerClass}`, {
-      type: 'slider',
+      type: 'carousel',
       bound: true,
       startAt: 0,
-      perView: 4
+      perView: 5
     }).mount();
 }
+
+
 
 function toggleHeart(event) {
     const heartBtn = event.currentTarget; // Get the button that was clicked.
@@ -138,10 +135,6 @@ fetchAndDisplayMovies(API_URL_BEST, 'movies-best', 'films', true);  // Show rati
 fetchAndDisplayMovies(API_URL_AWAIT, 'movies-await', 'films', false);  // Hide ratings
 fetchAndDisplayMovies(API_URL_RELEASE, 'movies-release', 'releases', false);  // Hide ratings
 fetchAndDisplayMovies(API_URL_PREMIERE, 'movies-premiere', 'items', false);  // Hide ratings
-
-
-
-
 
 
 
