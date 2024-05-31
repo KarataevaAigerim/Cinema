@@ -42,6 +42,24 @@ body {
     width: 300px;
 }
 
+@media screen and (min-width: 768px) {
+    .header__search {
+        width: 200px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .header__search {
+        width: 260px;
+    }
+    
+}
+
+@media screen and (max-width: 512px) {
+    .header__search {
+        width: 150px;
+    }
+}
 .search-results {
     max-width: 1200px;
     margin: 0 auto;
@@ -59,6 +77,23 @@ body {
     padding: 0 5px;
     font-size: 26px;
     border-left: 3px solid #FFC107; ;
+}
+
+@media screen and (max-width: 768px) {
+    .top-category {
+        font-size: 20px;
+        padding: 0 10px;
+        margin: 5px 20px;
+    }
+}
+
+@media screen and (max-width: 512px) {
+    .top-category {
+        font-size: 16px;
+        padding: 0 15px;
+        margin: 10px 25px;
+    }
+    
 }
 
 .movies {
@@ -175,6 +210,22 @@ body {
     box-sizing: border-box;
 }
 
+@media screen and (max-width: 768px) {
+    .glide__slide {
+        width: 150px !important;
+        margin: 10px !important;
+        height: 200px !important;
+    }
+}
+
+@media screen and (max-width: 512px) {
+    .glide__slide {
+        width: 130px !important;
+        margin: 5px !important;
+        height: 180px !important;
+    }
+}
+
 .glide {
     max-width: 100%; 
 }
@@ -191,4 +242,19 @@ body {
 
 .heart-btn i:hover {
     cursor: pointer;
+}
+
+.heart-btn.heart-active {
+    color: red; /* Change color to red when active/favorited */
+}
+
+.favorite-movies {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: start;
+    gap: 20px;
+    width: 100%; /* Ensure the container is full width or adjust as necessary */
+    overflow: hidden;
 }

@@ -86,7 +86,7 @@ function getClassByRate (rate) {
     const respData = await resp.json();
     displayMovies(respData[dataKey], containerClass, showRating);
   }  
-  
+
   function displayMovies(movies, containerClass, showRating = false) {
     const moviesEl = document.querySelector(`.${containerClass} .glide__slides`);
     moviesEl.innerHTML = '';
@@ -117,7 +117,17 @@ function getClassByRate (rate) {
   
     new Glide(`.${containerClass}`, {
       type: 'carousel',
-      bound: true,
+      breakpoints: {
+        1024: {
+          perView: 4
+        },
+        600: {
+          perView: 2
+        },
+        400: {
+          perView: 1
+        }
+      },
       startAt: 0,
       perView: 5
     }).mount();
@@ -136,12 +146,8 @@ fetchAndDisplayMovies(API_URL_AWAIT, 'movies-await', 'films', false);  // Hide r
 fetchAndDisplayMovies(API_URL_RELEASE, 'movies-release', 'releases', false);  // Hide ratings
 fetchAndDisplayMovies(API_URL_PREMIERE, 'movies-premiere', 'items', false);  // Hide ratings
 
-
-
-
-
-
-
+localStorage.getItem('favorites')
+localStorage.setItem('favorites', JSON.stringify([]))
 
 
 
