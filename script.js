@@ -8,6 +8,7 @@ const API_URL_BEST = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?typ
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
+
 // Search
 const form = document.querySelector('form');
 const search = document.querySelector('.header__search');
@@ -35,7 +36,6 @@ function fetchSearchResults(url) {
         .then(data => displaySearchResults(data))
         .catch(error => console.error('Error fetching search results:', error));
 }
-
 
 function displaySearchResults(data) {
     const searchResultsContainer = document.querySelector('.search-results');
@@ -77,7 +77,7 @@ function getClassByRate (rate) {
     }
 }
 
-// refactored code
+// get and display different categories movies
   async function fetchAndDisplayMovies(url, containerClass, dataKey, showRating = false) {
     const resp = await fetch(url, {
       headers: {
@@ -88,8 +88,6 @@ function getClassByRate (rate) {
     const respData = await resp.json();
     displayMovies(respData[dataKey], containerClass, showRating);
   }  
-
-  
 
   function displayMovies(movies, containerClass, showRating = false) {
     const moviesEl = document.querySelector(`.${containerClass} .glide__slides`);
@@ -111,6 +109,7 @@ function getClassByRate (rate) {
                     <div class="movie__category">${movie.genres.slice(0, 2).map(genre => genre.genre).join(' • ')}</div>
               </div>
               <button class="heart-btn"><i class="fas fa-heart"></i></button>
+              
               ${showRating ? `<div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>` : ''}
             </div>
         `;
@@ -118,7 +117,8 @@ function getClassByRate (rate) {
         // Attach the event listener to the heart button
         li.querySelector('.heart-btn').addEventListener('click', toggleHeart(movie));
     });
-  
+
+    // carousel from Slide.js 
     new Glide(`.${containerClass}`, {
       type: 'carousel',
       breakpoints: {
@@ -142,44 +142,36 @@ fetchAndDisplayMovies(API_URL_AWAIT, 'movies-await', 'films', false);  // Hide r
 fetchAndDisplayMovies(API_URL_RELEASE, 'movies-release', 'releases', false);  // Hide ratings
 fetchAndDisplayMovies(API_URL_PREMIERE, 'movies-premiere', 'items', false);  // Hide ratings
 
-// Favorites
+// Favorites functionality
 
-function toggleHeart(movie) {
+  function toggleHeart(movie) {
     return function(event) {
         const heartBtn = event.currentTarget;
-        const index = favorites.findIndex(fav => fav.id === movie.id); // Assuming each movie has a unique 'id' property
-
+        // Correcting the findIndex usage
+        const index = favorites.findIndex(fav => fav.filmId === movie.filmId);
+        
         if (index > -1) {
             // Movie is already a favorite, remove it
             favorites.splice(index, 1);
-            heartBtn.classList.remove('red-heart');
-            heartBtn.classList.add('grey-heart');
+            heartBtn.classList.remove('heart-active'); // Remove active class correctly
         } else {
             // Movie is not a favorite, add it
             favorites.push(movie);
-            heartBtn.classList.add('red-heart');
-            heartBtn.classList.remove('grey-heart');
+            heartBtn.classList.add('heart-active'); // Add active class correctly
         }
 
         // Update localStorage
         localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateHeartState(movie, heartBtn);
     };
 }
 
+function updateHeartState(movie, heartBtn) {
+    const isFavorite = favorites.some(fav => fav.filmId === movie.filmId);
+    heartBtn.classList.toggle('heart-active', isFavorite);
+}
 
 
-// localStorage.removeItem('favorites');
-// const favorites = localStorage.getItem('favorites')
-//   ? JSON.parse(localStorage.getItem('favorites'))
-//   : [];
-// function toggleHeart(movie) {
-//   console.log(favorites);
-//   favorites.push(movie);
-//   localStorage.setItem('favorites', JSON.stringify(favorites));
-  // const heartBtn = event.currentTarget; // Get the button that was clicked.
-  // heartBtn.style.color = heartBtn.style.color === 'red' ? 'grey' : 'red';
-// }
-  
 
 function displayFavorites() {
     const favoriteMoviesContainer = document.querySelector('.favorite-movies');
