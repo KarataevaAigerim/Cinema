@@ -6,6 +6,8 @@ const API_URL_PREMIERE = "https://kinopoiskapiunofficial.tech/api/v2.2/films/pre
 const API_URL_AWAIT = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_AWAIT_FILMS&page=1";
 const API_URL_BEST = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_250_BEST_FILMS&page=1";
 
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
 // Search
 const form = document.querySelector('form');
 const search = document.querySelector('.header__search');
@@ -60,7 +62,7 @@ function displaySearchResults(data) {
         `;
         searchResultsContainer.appendChild(element);
         // Attach the event listener to the heart button
-        element.querySelector('.heart-btn').addEventListener('click', toggleHeart);
+        element.querySelector('.heart-btn').addEventListener('click', toggleHeart(movie));
     });
 }
 
@@ -87,11 +89,14 @@ function getClassByRate (rate) {
     displayMovies(respData[dataKey], containerClass, showRating);
   }  
 
+  
+
   function displayMovies(movies, containerClass, showRating = false) {
     const moviesEl = document.querySelector(`.${containerClass} .glide__slides`);
     moviesEl.innerHTML = '';
   
     movies.slice(0, 10).forEach(movie => {
+        const isFavorite = favorites.some(fav => fav.id === movie.id);
         const li = document.createElement('li');
         li.className = 'glide__slide';
         li.innerHTML = `
@@ -110,9 +115,8 @@ function getClassByRate (rate) {
             </div>
         `;
         moviesEl.appendChild(li);
-
         // Attach the event listener to the heart button
-        li.querySelector('.heart-btn').addEventListener('click', toggleHeart);
+        li.querySelector('.heart-btn').addEventListener('click', toggleHeart(movie));
     });
   
     new Glide(`.${containerClass}`, {
@@ -133,30 +137,77 @@ function getClassByRate (rate) {
     }).mount();
 }
 
-
-
-function toggleHeart(event) {
-    const heartBtn = event.currentTarget; // Get the button that was clicked.
-    heartBtn.style.color = heartBtn.style.color === 'red' ? 'grey' : 'red';
-}
-  
-
 fetchAndDisplayMovies(API_URL_BEST, 'movies-best', 'films', true);  // Show ratings
 fetchAndDisplayMovies(API_URL_AWAIT, 'movies-await', 'films', false);  // Hide ratings
 fetchAndDisplayMovies(API_URL_RELEASE, 'movies-release', 'releases', false);  // Hide ratings
 fetchAndDisplayMovies(API_URL_PREMIERE, 'movies-premiere', 'items', false);  // Hide ratings
 
-localStorage.getItem('favorites')
-localStorage.setItem('favorites', JSON.stringify([]))
+// Favorites
+
+function toggleHeart(movie) {
+    return function(event) {
+        const heartBtn = event.currentTarget;
+        const index = favorites.findIndex(fav => fav.id === movie.id); // Assuming each movie has a unique 'id' property
+
+        if (index > -1) {
+            // Movie is already a favorite, remove it
+            favorites.splice(index, 1);
+            heartBtn.classList.remove('red-heart');
+            heartBtn.classList.add('grey-heart');
+        } else {
+            // Movie is not a favorite, add it
+            favorites.push(movie);
+            heartBtn.classList.add('red-heart');
+            heartBtn.classList.remove('grey-heart');
+        }
+
+        // Update localStorage
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    };
+}
 
 
 
+// localStorage.removeItem('favorites');
+// const favorites = localStorage.getItem('favorites')
+//   ? JSON.parse(localStorage.getItem('favorites'))
+//   : [];
+// function toggleHeart(movie) {
+//   console.log(favorites);
+//   favorites.push(movie);
+//   localStorage.setItem('favorites', JSON.stringify(favorites));
+  // const heartBtn = event.currentTarget; // Get the button that was clicked.
+  // heartBtn.style.color = heartBtn.style.color === 'red' ? 'grey' : 'red';
+// }
+  
 
+function displayFavorites() {
+    const favoriteMoviesContainer = document.querySelector('.favorite-movies');
+    favoriteMoviesContainer.innerHTML = ''; // Clear previous contents
+    favorites.forEach(movie => {
+        const element = document.createElement('div');
+        element.className = 'movie';
+        element.innerHTML = `
+            <div class="movie__poster">
+                <img src="${movie.posterUrlPreview}" alt="${movie.nameRu}" class="movie__poster-img"/>
+                <div class="movie__poster-darkened"></div>
+                <div class="movie__year">${movie.year}</div>
+            </div>
+            <div class="movie__info">
+                <div class="movie__details">
+                    <div class="movie__title">${movie.nameRu}</div>
+                    <div class="movie__category">${movie.genres.slice(0, 2).map(genre => genre.genre).join(' • ')}</div>
+                </div>
+                <button class="heart-btn red-heart"><i class="fas fa-heart"></i></button>
+            </div>
+        `;
+        favoriteMoviesContainer.appendChild(element);
+        element.querySelector('.heart-btn').addEventListener('click',toggleHeart(movie));
+    });
+}
 
-
-
-
-
+// Call this function on page load or when needed
+displayFavorites();
 
 
 
