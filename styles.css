@@ -141,10 +141,11 @@ body {
 
 .movie__info {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     padding: 10px 0px;
 }
+
 
 .movie__details {
     flex-grow: 1;
@@ -238,6 +239,7 @@ body {
     color:grey;
     margin-right: 10px;
     margin-left: 5px
+    align-items: flex-start;
 }
 
 .heart-btn i:hover {
@@ -250,7 +252,7 @@ body {
 
 .favorite-movies {
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 0 0 20px 0;
     display: flex;
     flex-wrap:wrap;
     justify-content: start;
