@@ -8,6 +8,10 @@ const API_URL_BEST = "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?typ
 
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
+function isFavorite(movie) {
+    return favorites.some(fav => fav.filmId === movie.filmId);
+}
+
 
 // Search
 const form = document.querySelector('form');
@@ -56,7 +60,9 @@ function displaySearchResults(data) {
                     <div class="movie__title">${movie.nameRu}</div>
                     <div class="movie__category">${movie.genres.slice(0, 2).map(genre => genre.genre).join(' • ')}</div>
               </div>
-              <button class="heart-btn"><i class="fas fa-heart"></i></button>
+              <button class="heart-btn ${isFavorite(movie) ? 'heart-active' : ''}">
+                    <i class="fas fa-heart"></i>
+              </button>
               <div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>
             </div>
         `;
@@ -94,7 +100,6 @@ function getClassByRate (rate) {
     moviesEl.innerHTML = '';
   
     movies.slice(0, 10).forEach(movie => {
-        const isFavorite = favorites.some(fav => fav.id === movie.id);
         const li = document.createElement('li');
         li.className = 'glide__slide';
         li.innerHTML = `
@@ -108,7 +113,9 @@ function getClassByRate (rate) {
                     <div class="movie__title">${movie.nameRu}</div>
                     <div class="movie__category">${movie.genres.slice(0, 2).map(genre => genre.genre).join(' • ')}</div>
               </div>
-              <button class="heart-btn"><i class="fas fa-heart"></i></button>
+              <button class="heart-btn ${isFavorite(movie) ? 'heart-active' : ''}">
+                    <i class="fas fa-heart"></i>
+              </button>
               
               ${showRating ? `<div class="movie__rating movie__rating--${getClassByRate(movie.rating)}">${movie.rating}</div>` : ''}
             </div>
@@ -162,16 +169,8 @@ fetchAndDisplayMovies(API_URL_PREMIERE, 'movies-premiere', 'items', false);  // 
 
         // Update localStorage
         localStorage.setItem('favorites', JSON.stringify(favorites));
-        updateHeartState(movie, heartBtn);
     };
 }
-
-function updateHeartState(movie, heartBtn) {
-    const isFavorite = favorites.some(fav => fav.filmId === movie.filmId);
-    heartBtn.classList.toggle('heart-active', isFavorite);
-}
-
-
 
 function displayFavorites() {
     const favoriteMoviesContainer = document.querySelector('.favorite-movies');
@@ -190,7 +189,9 @@ function displayFavorites() {
                     <div class="movie__title">${movie.nameRu}</div>
                     <div class="movie__category">${movie.genres.slice(0, 2).map(genre => genre.genre).join(' • ')}</div>
                 </div>
-                <button class="heart-btn red-heart"><i class="fas fa-heart"></i></button>
+                <button class="heart-btn ${isFavorite(movie) ? 'heart-active' : ''}">
+                    <i class="fas fa-heart"></i>
+                </button>
             </div>
         `;
         favoriteMoviesContainer.appendChild(element);
