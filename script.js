@@ -45,8 +45,8 @@ function displaySearchResults(data) {
     const searchResultsContainer = document.querySelector('.search-results');
     searchResultsContainer.innerHTML = ''; // Clear the previous search results
 
-    // Use slice to get only the first 12 movies
-    (data.films || []).slice(0, 12).forEach(movie => {
+    // Use slice to get only the first 10 movies
+    (data.films || []).slice(0, 10).forEach(movie => {
         const element = document.createElement('div');
         element.className = 'movie';
         element.innerHTML = `
